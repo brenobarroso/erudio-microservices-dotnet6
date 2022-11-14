@@ -1,8 +1,11 @@
 ﻿using GeekShopping.ProductAPI.Data.ValueObjects;
-using GeekShopping.ProductAPI.Model;
 using GeekShopping.ProductAPI.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GeekShopping.ProductAPI.Controllers
 {
@@ -14,7 +17,8 @@ namespace GeekShopping.ProductAPI.Controllers
 
         public ProductController(IProductRepository repository)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _repository = repository ?? throw new
+                ArgumentNullException(nameof(repository));
         }
 
         [HttpGet]
@@ -36,16 +40,14 @@ namespace GeekShopping.ProductAPI.Controllers
         public async Task<ActionResult<ProductVO>> Create(ProductVO vo)
         {
             if (vo == null) return BadRequest();
-
             var product = await _repository.Create(vo);
             return Ok(product);
         }
-        
+
         [HttpPut]
         public async Task<ActionResult<ProductVO>> Update(ProductVO vo)
         {
             if (vo == null) return BadRequest();
-
             var product = await _repository.Update(vo);
             return Ok(product);
         }
@@ -54,9 +56,8 @@ namespace GeekShopping.ProductAPI.Controllers
         public async Task<ActionResult> Delete(long id)
         {
             var status = await _repository.Delete(id);
-            if(!status) return BadRequest();
+            if (!status) return BadRequest();
             return Ok(status);
         }
-
     }
 }
